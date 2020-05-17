@@ -1,0 +1,49 @@
+<h1>Minhas Tarefas</h1>
+<!-- <ol>
+    <li *ngFor="let tarefa of listaMinhasTarefas">
+        {{ tarefa }}
+        <button>OK</button>
+        <button>X</button>
+    </li>
+</ol> -->
+<p *ngIf="listaMinhasTarefas.length == 0">
+    Você não tem nenhuma tarefa ainda !!!
+</p>
+
+<ul>
+    <li *ngFor="let tarefa of listaMinhasTarefas">
+        {{ tarefa.id }} - {{ tarefa.nome }}
+        <button *ngIf="tarefa.concluida == false" (click)="marcarConcluida(tarefa)">Concluido</button>
+        <button *ngIf="tarefa.concluida == true" (click)="desmarcarConcluida(tarefa)">Refazer</button>
+        <button (click)="removeTarefa(tarefa)">Remove</button>
+    </li>
+</ul>
+
+<!-- <strong>próximo ID: </strong> <span>{{ listaMinhasTarefas[0].getComprimento == + 1 }}</span> -->
+
+<!-- 
+TRÊS TIPO DE BINDING NO TS E HTML
+SIMBOLO     NORMAL  ->  CONVERTER
+()          HTML    ->  TS
+[()]        HTML    ->  TS 
+[]          TS      ->  HTML
+-->
+
+
+<h1>Criar Tarefa</h1>
+<form [formGroup]="formulario">
+    <fieldset>
+        <legend>Nome da Tarefa</legend>
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" placeholder="Ex. Ir para o supermecado" maxlength="100"
+            formControlName="form_nome">
+        <small *ngIf="formulario.controls.form_nome.invalid &&
+                      !formulario.controls.form_nome.pristine"> ... </small>
+        <button [disabled]="formulario.controls.form_nome.pristine" (click)="limparCampoNome()">Limpar Nome</button>
+    </fieldset>
+    <hr>
+    <button [disabled]="formulario.pristine" (click)="limparTodosCampos()">Limpar</button>
+    <button [disabled]="formulario.invalid" (click)="salvarFormulario()">Salvar</button>
+    <strong *ngIf="!formulario.pristine">Você chegou a preencher o formulário</strong>
+
+</form>
